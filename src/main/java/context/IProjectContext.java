@@ -1,4 +1,9 @@
 package context;
 
-public interface IProjectContext extends IContext {
+import objects.Project;
+
+import java.util.List;
+
+public interface IProjectContext extends IContext<Project> {
+    List<Project> getAllProjects();
 }

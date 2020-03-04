@@ -1,11 +1,14 @@
 package controllers;
 
+import objects.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import repositories.ProjectRepository;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/project")
@@ -19,8 +22,8 @@ public class ProjectController {
         this.projectRepository = projectRepository;
     }
 
-    @GetMapping("/hello")
-    public String getProject() {
-        return projectRepository.readProject();
+    @GetMapping("/all")
+    public List<Project> getAllProjects() {
+        return projectRepository.allProjects();
     }
 }

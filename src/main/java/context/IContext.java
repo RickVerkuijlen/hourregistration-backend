@@ -25,10 +25,4 @@ public interface IContext<T> {
      */
     boolean create(T entity);
 
-    /**
-     * Gets the existing entity from the database
-     * @param entity the entity that needs to be found
-     * @return the object of type T
-     */
-    T read(UUID entity);
 }
