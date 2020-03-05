@@ -20,7 +20,7 @@ sonarcloud-check:
 
 test:
     stage: test
-    image: openjdk:11.0.5-slim
+    image: maven:latest
     script:
         - mvn clean test
     
