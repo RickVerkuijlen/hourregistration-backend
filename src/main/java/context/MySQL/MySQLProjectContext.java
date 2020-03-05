@@ -4,12 +4,20 @@ import context.IProjectContext;
 import objects.Project;
 import org.springframework.stereotype.Component;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Component
 public class MySQLProjectContext implements IProjectContext {
+
+    private Connection con;
+
+    public MySQLProjectContext() {
+        con = ConnectionManager.getConnection();
+    }
+
     @Override
     public boolean delete(UUID entity) {
         return false;
@@ -27,10 +35,8 @@ public class MySQLProjectContext implements IProjectContext {
 
     @Override
     public List<Project> getAllProjects() {
-        List<Project> projects = new ArrayList<>();
-        projects.add(new Project());
-        projects.add(new Project());
-        projects.add(new Project());
-        return projects;
+        List<Project> result = new ArrayList<>();
+
+        return result;
     }
 }

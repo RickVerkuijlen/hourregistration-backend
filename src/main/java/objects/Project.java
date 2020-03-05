@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.sql.Time;
+import java.time.LocalDate;
 
 @Entity
 public class Project {
@@ -13,13 +14,24 @@ public class Project {
     @Id
     private String code;
     private String address;
-    private double timeTotal;
     private Implementor implementor;
     private Time startTime;
-    private Client contactPerson;
+    private Client client;
+    private String description;
+    private LocalDate lastEdit;
 
     public Project() {
 
+    }
+
+    public Project(String code, String address, Implementor implementor, Time startTime, Client client, String description, LocalDate lastEdit) {
+        this.code = code;
+        this.address = address;
+        this.implementor = implementor;
+        this.startTime = startTime;
+        this.client = client;
+        this.description = description;
+        this.lastEdit = lastEdit;
     }
 
     public String getCode() {
@@ -38,14 +50,6 @@ public class Project {
         this.address = address;
     }
 
-    public double getTimeTotal() {
-        return timeTotal;
-    }
-
-    public void setTimeTotal(double timeTotal) {
-        this.timeTotal = timeTotal;
-    }
-
     public Implementor getImplementor() {
         return implementor;
     }
@@ -62,11 +66,27 @@ public class Project {
         this.startTime = startTime;
     }
 
-    public Client getContactPerson() {
-        return contactPerson;
+    public Client getClient() {
+        return client;
     }
 
-    public void setContactPerson(Client contactPerson) {
-        this.contactPerson = contactPerson;
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDate getLastEdit() {
+        return lastEdit;
+    }
+
+    public void setLastEdit(LocalDate lastEdit) {
+        this.lastEdit = lastEdit;
     }
 }
