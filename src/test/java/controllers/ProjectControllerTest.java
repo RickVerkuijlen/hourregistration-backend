@@ -12,6 +12,7 @@ class ProjectControllerTest {
     private IProjectContext projectContext;
     private ProjectController projectController;
     private ProjectRepository projectRepository;
+
     @BeforeEach
     void setUp() {
         this.projectContext = new ProjectContextMock();
@@ -23,8 +24,6 @@ class ProjectControllerTest {
     void getAllProject_AllProjects_size() {
         int expected = 3;
         int actual = projectController.getAllProjects().size();
-
-        System.out.println(projectController.getAllProjects());
 
         assertEquals(expected, actual);
     }

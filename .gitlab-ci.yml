@@ -6,17 +6,17 @@ stages:
     - test
     - build
     
-sonarcloud-check:
-    image: maven:latest
-    stage: test
-    cache:
-        key: "${CI_JOB_NAME}"
-        paths:
-            - .sonar/cache
-    script:
-        - mvn verify jacoco:report sonar:sonar
-    only:
-        - master
+#sonarcloud-check:
+#    image: maven:latest
+#    stage: test
+#    cache:
+#        key: "${CI_JOB_NAME}"
+#        paths:
+#            - .sonar/cache
+#    script:
+#        - mvn verify jacoco:report sonar:sonar
+#    only:
+#        - master
 
 test:
     stage: test
