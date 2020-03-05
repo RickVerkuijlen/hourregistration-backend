@@ -16,7 +16,8 @@
     <properties>
         <java.version>11</java.version>
         <jacoco.version>0.8.4</jacoco.version>
-
+        <sonar.projectKey>hour-registration-rest</sonar.projectKey>
+        <sonar.organization>rickverkuijlen</sonar.organization>
     </properties>
 
     <dependencies>

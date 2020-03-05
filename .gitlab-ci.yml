@@ -22,7 +22,7 @@ test:
     stage: test
     image: openjdk:11.0.5-slim
     script:
-        - ./mvn clean test
+        - mvn clean test
     
 build:
     stage: build
