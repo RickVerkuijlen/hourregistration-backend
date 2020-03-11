@@ -3,31 +3,43 @@ package objects;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.hateoas.ResourceSupport;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "project")
 public class Project extends ResourceSupport {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @Column(name = "code")
     private String code;
-    private String address;
-    @JsonIgnore
-    private Implementor implementor;
-    private Time startTime;
-    @JsonIgnore
-    private Client client;
-    private String description;
-    private LocalDate lastEdit;
 
-    public Project() {
-        this.implementor = new Implementor();
-        this.implementor.setId(1);
+    @Column(name = "address")
+    private String address;
+
+    @JsonIgnore
+    @Column(name = "implementorId")
+    private int implementorId;
+
+   // private Time startTime;
+
+    @JsonIgnore
+    @Column(name = "clientId")
+    private int clientId;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "lastModified")
+    private Date lastModified;
+
+    public Project() {}
+
+    public Project(int id) {
+        this.implementorId = id;
         this.code = "20RV1";
     }
 
@@ -47,28 +59,28 @@ public class Project extends ResourceSupport {
         this.address = address;
     }
 
-    public Implementor getImplementor() {
-        return implementor;
+    public int getImplementor() {
+        return implementorId;
     }
 
-    public void setImplementor(Implementor implementor) {
-        this.implementor = implementor;
+    public void setImplementor(int implementorId) {
+        this.implementorId = implementorId;
     }
 
-    public Time getStartTime() {
-        return startTime;
+//    public Time getStartTime() {
+//        return startTime;
+//    }
+//
+//    public void setStartTime(Time startTime) {
+//        this.startTime = startTime;
+//    }
+
+    public int getClient() {
+        return clientId;
     }
 
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClient(int clientId) {
+        this.clientId = clientId;
     }
 
     public String getDescription() {
@@ -79,11 +91,11 @@ public class Project extends ResourceSupport {
         this.description = description;
     }
 
-    public LocalDate getLastEdit() {
-        return lastEdit;
+    public Date getLastModified() {
+        return lastModified;
     }
 
-    public void setLastEdit(LocalDate lastEdit) {
-        this.lastEdit = lastEdit;
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
     }
 }
