@@ -10,9 +10,8 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "project")
-public class Project extends ResourceSupport {
+public class ProjectDTO extends ResourceSupport {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "code")
     private String code;
@@ -36,9 +35,9 @@ public class Project extends ResourceSupport {
     @Column(name = "lastModified")
     private Date lastModified;
 
-    public Project() {}
+    public ProjectDTO() {}
 
-    public Project(int id) {
+    public ProjectDTO(int id) {
         this.implementorId = id;
         this.code = "20RV1";
     }
@@ -59,27 +58,19 @@ public class Project extends ResourceSupport {
         this.address = address;
     }
 
-    public int getImplementor() {
+    public int getImplementorId() {
         return implementorId;
     }
 
-    public void setImplementor(int implementorId) {
+    public void setImplementorId(int implementorId) {
         this.implementorId = implementorId;
     }
 
-//    public Time getStartTime() {
-//        return startTime;
-//    }
-//
-//    public void setStartTime(Time startTime) {
-//        this.startTime = startTime;
-//    }
-
-    public int getClient() {
+    public int getClientId() {
         return clientId;
     }
 
-    public void setClient(int clientId) {
+    public void setClientId(int clientId) {
         this.clientId = clientId;
     }
 

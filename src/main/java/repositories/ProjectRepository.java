@@ -1,9 +1,10 @@
 package repositories;
 
-import context.IProjectContext;
+import context.Interfaces.IProjectContext;
+import controllers.ClientController;
 import controllers.ImplementorController;
 import controllers.ProjectController;
-import objects.Project;
+import objects.ProjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
@@ -24,23 +25,31 @@ public class ProjectRepository implements IProjectRepository {
         this.projectContext = projectContext;
     }
 
-    public List<Project> allProjects() {
-        List<Project> projects = projectContext.getAllProjects();
-        for (Project project :
-                projects) {
-            String implementorId = Integer.toString(project.getImplementor());
+    @Override
+    public List<ProjectDTO> allProjects() {
+        List<ProjectDTO> projectDTOS = projectContext.getAllProjects();
+        for (ProjectDTO projectDTO :
+                projectDTOS) {
 
-            Link selfLink = linkTo(methodOn(ProjectController.class).getProjectById(project.getCode())).withSelfRel();
-            project.add(selfLink);
+            Link selfLink = linkTo(methodOn(ProjectController.class).getProjectById(projectDTO.getCode())).withSelfRel();
+            projectDTO.add(selfLink);
 
-            Link implementorLink = linkTo(methodOn(ImplementorController.class).getById(implementorId)).withRel("implementor");
-            project.add(implementorLink);
+            Link implementorLink = linkTo(methodOn(ImplementorController.class).getById(Integer.toString(projectDTO.getImplementorId()))).withRel("implementor");
+            projectDTO.add(implementorLink);
+
+            Link clientLink = linkTo(methodOn(ClientController.class).getClientById(Integer.toString(projectDTO.getClientId()))).withRel("client");
+            projectDTO.add(clientLink);
         }
-        return projects;
+        return projectDTOS;
     }
 
     @Override
-    public Project getProjectByCode(String code) {
+    public ProjectDTO getProjectByCode(String code) {
         return allProjects().stream().filter(o -> o.getCode().equals(code)).findFirst().orElseThrow(NullPointerException::new);
+    }
+
+    @Override
+    public Boolean createProject(ProjectDTO projectDTO) {
+        return projectContext.create(projectDTO);
     }
 }

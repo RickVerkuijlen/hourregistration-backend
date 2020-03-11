@@ -1,7 +1,7 @@
 package repositories.Interfaces;
 
-import objects.Implementor;
+import objects.ImplementorDTO;
 
 public interface IImplementorRepository {
-    Implementor getById(int id);
+    ImplementorDTO getById(int id);
 }

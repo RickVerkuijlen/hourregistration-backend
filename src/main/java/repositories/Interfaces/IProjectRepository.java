@@ -1,7 +1,11 @@
 package repositories.Interfaces;
 
-import objects.Project;
+import objects.ProjectDTO;
+
+import java.util.List;
 
 public interface IProjectRepository {
-    Project getProjectByCode(String code);
+    List<ProjectDTO> allProjects();
+    ProjectDTO getProjectByCode(String code);
+    Boolean createProject(ProjectDTO projectDTO);
 }

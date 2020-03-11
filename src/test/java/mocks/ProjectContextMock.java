@@ -1,7 +1,7 @@
 package mocks;
 
-import context.IProjectContext;
-import objects.Project;
+import context.Interfaces.IProjectContext;
+import objects.ProjectDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +9,12 @@ import java.util.UUID;
 
 public class ProjectContextMock implements IProjectContext {
     @Override
-    public List<Project> getAllProjects() {
-        List<Project> projects = new ArrayList<>();
-        projects.add(new Project());
-        projects.add(new Project());
-        projects.add(new Project());
-        return projects;
+    public List<ProjectDTO> getAllProjects() {
+        List<ProjectDTO> projectDTOS = new ArrayList<>();
+        projectDTOS.add(new ProjectDTO());
+        projectDTOS.add(new ProjectDTO());
+        projectDTOS.add(new ProjectDTO());
+        return projectDTOS;
     }
 
     @Override
@@ -23,12 +23,12 @@ public class ProjectContextMock implements IProjectContext {
     }
 
     @Override
-    public boolean update(Project entity) {
+    public boolean update(ProjectDTO entity) {
         return false;
     }
 
     @Override
-    public boolean create(Project entity) {
+    public boolean create(ProjectDTO entity) {
         return false;
     }
 }

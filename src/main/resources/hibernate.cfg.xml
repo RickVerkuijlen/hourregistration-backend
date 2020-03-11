@@ -9,8 +9,8 @@
         <property name="hibernate.connection.username">hourregistration</property>
         <property name="hibernate.connection.password">ZoWFfRsUQDAN64Td</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
-        <mapping class="objects.Project" />
-        <mapping class="objects.Client" />
-        <mapping class="objects.Implementor" />
+        <mapping class="objects.ProjectDTO" />
+        <mapping class="objects.ClientDTO" />
+        <mapping class="objects.ImplementorDTO" />
     </session-factory>
 </hibernate-configuration>

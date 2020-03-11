@@ -1,6 +1,6 @@
 package controllers;
 
-import objects.Implementor;
+import objects.ImplementorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -22,9 +22,9 @@ public class ImplementorController {
     }
 
     @GetMapping("/get/{id}")
-    public @ResponseBody HttpEntity<Implementor> getById(@PathVariable String id) {
-        Implementor implementor = implementorRepository.getById(Integer.parseInt(id));
-        return new ResponseEntity<>(implementor, HttpStatus.OK);
+    public @ResponseBody HttpEntity<ImplementorDTO> getById(@PathVariable String id) {
+        ImplementorDTO implementorDTO = implementorRepository.getById(Integer.parseInt(id));
+        return new ResponseEntity<>(implementorDTO, HttpStatus.OK);
     }
 
 }

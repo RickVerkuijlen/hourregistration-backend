@@ -1,13 +1,12 @@
-package context.MySQL;
+package context;
 
-import context.IProjectContext;
-import objects.Project;
+import context.Interfaces.IProjectContext;
+import objects.ProjectDTO;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
 import util.HibernateUtil;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,24 +14,18 @@ import java.util.UUID;
 @Component
 public class MySQLProjectContext implements IProjectContext {
 
-    private Connection con;
-
-    public MySQLProjectContext() {
-
-    }
-
     @Override
     public boolean delete(UUID entity) {
         return false;
     }
 
     @Override
-    public boolean update(Project entity) {
+    public boolean update(ProjectDTO entity) {
         return false;
     }
 
     @Override
-    public boolean create(Project entity) {
+    public boolean create(ProjectDTO entity) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -51,10 +44,10 @@ public class MySQLProjectContext implements IProjectContext {
     }
 
     @Override
-    public List<Project> getAllProjects() {
-        List<Project> result = new ArrayList<>();
+    public List<ProjectDTO> getAllProjects() {
+        List<ProjectDTO> result = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            result = session.createQuery("from Project", Project.class).list();
+            result = session.createQuery("from ProjectDTO", ProjectDTO.class).list();
         }
         return result;
     }

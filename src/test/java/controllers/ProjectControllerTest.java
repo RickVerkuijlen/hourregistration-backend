@@ -1,6 +1,6 @@
 package controllers;
 
-import context.IProjectContext;
+import context.Interfaces.IProjectContext;
 import mocks.ProjectContextMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

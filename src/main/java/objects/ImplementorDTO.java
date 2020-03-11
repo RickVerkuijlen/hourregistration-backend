@@ -1,19 +1,20 @@
 package objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Implementor {
+@Table(name = "implementor")
+public class ImplementorDTO {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "name")
     private String name;
 
-    public Implementor() {
+    public ImplementorDTO() {
 
     }
 

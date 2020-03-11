@@ -1,6 +1,6 @@
 package controllers;
 
-import objects.Project;
+import objects.ProjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repositories.ProjectRepository;
 
-import javax.websocket.server.PathParam;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,9 +23,9 @@ public class ProjectController {
         this.projectRepository = projectRepository;
     }
 
-    @GetMapping("/get/all")
-    public @ResponseBody HttpEntity<List<Project>> getAllProjects() {
-        List<Project> allProjects = projectRepository.allProjects();
+    @GetMapping("/all")
+    public @ResponseBody HttpEntity<List<ProjectDTO>> getAllProjects() {
+        List<ProjectDTO> allProjects = projectRepository.allProjects();
         if(!allProjects.isEmpty()) {
             return new ResponseEntity<>(allProjects, HttpStatus.OK);
         } else {
@@ -35,14 +33,26 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/get/{code}")
-    public @ResponseBody HttpEntity<Project> getProjectById(@PathVariable String code) {
-        Project project = projectRepository.getProjectByCode(code);
+    @GetMapping("/{code}")
+    public @ResponseBody HttpEntity<ProjectDTO> getProjectById(@PathVariable String code) {
+        ProjectDTO projectDTO = projectRepository.getProjectByCode(code);
 
-        if(project != null) {
-            return new ResponseEntity<>(project, HttpStatus.OK);
+        if(projectDTO != null) {
+            return new ResponseEntity<>(projectDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public HttpEntity<Boolean> createProject(@RequestBody ProjectDTO newProject) {
+        Boolean projectCreationSuccess = projectRepository.createProject(newProject);
+
+        if(projectCreationSuccess) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
