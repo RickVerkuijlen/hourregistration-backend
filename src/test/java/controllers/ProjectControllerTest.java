@@ -23,7 +23,7 @@ class ProjectControllerTest {
     @Test
     void getAllProject_AllProjects_size() {
         int expected = 3;
-        int actual = projectController.getAllProjects().size();
+        int actual = projectController.getAllProjects().getBody().size();
 
         assertEquals(expected, actual);
     }

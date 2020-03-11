@@ -1,5 +1,8 @@
 package objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.hateoas.ResourceSupport;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,30 +11,24 @@ import java.sql.Time;
 import java.time.LocalDate;
 
 @Entity
-public class Project {
+public class Project extends ResourceSupport {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private String code;
     private String address;
+    @JsonIgnore
     private Implementor implementor;
     private Time startTime;
+    @JsonIgnore
     private Client client;
     private String description;
     private LocalDate lastEdit;
 
     public Project() {
-
-    }
-
-    public Project(String code, String address, Implementor implementor, Time startTime, Client client, String description, LocalDate lastEdit) {
-        this.code = code;
-        this.address = address;
-        this.implementor = implementor;
-        this.startTime = startTime;
-        this.client = client;
-        this.description = description;
-        this.lastEdit = lastEdit;
+        this.implementor = new Implementor();
+        this.implementor.setId(1);
+        this.code = "20RV1";
     }
 
     public String getCode() {

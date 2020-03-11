@@ -4,6 +4,7 @@ import context.IProjectContext;
 import objects.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import repositories.Interfaces.IProjectRepository;
 
 import java.util.List;
 
