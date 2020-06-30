@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import repositories.Interfaces.IImplementorRepository;
 
 @RestController
-@RequestMapping("/implementor")
+@RequestMapping("/implementors")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ImplementorController {
 
@@ -21,7 +21,7 @@ public class ImplementorController {
         this.implementorRepository = implementorRepository;
     }
 
-    @GetMapping("/get/{id}")
+    @GetMapping("/{id}")
     public @ResponseBody HttpEntity<ImplementorDTO> getById(@PathVariable String id) {
         ImplementorDTO implementorDTO = implementorRepository.getById(Integer.parseInt(id));
         return new ResponseEntity<>(implementorDTO, HttpStatus.OK);

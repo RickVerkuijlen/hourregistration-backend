@@ -32,7 +32,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.4.12.Final</version>
+            <version>5.4.18.Final</version>
         </dependency>
         <dependency>
             <groupId>javax.persistence</groupId>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>6.0.6</version>
+            <version>8.0.20</version>
         </dependency>
         <dependency>
             <groupId>org.jacoco</groupId>
@@ -67,9 +67,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <release>11</release>
-                    <source>11</source>
-                    <target>11</target>
+                    <release>${java.version}</release>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
             <plugin>

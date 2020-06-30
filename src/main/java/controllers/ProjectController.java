@@ -11,7 +11,7 @@ import repositories.ProjectRepository;
 import java.util.List;
 
 @RestController
-@RequestMapping("/project")
+@RequestMapping("/projects")
 @CrossOrigin(origins = "http://localhost:3000")
 public class ProjectController {
 
@@ -23,7 +23,7 @@ public class ProjectController {
         this.projectRepository = projectRepository;
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public @ResponseBody HttpEntity<List<ProjectDTO>> getAllProjects() {
         List<ProjectDTO> allProjects = projectRepository.allProjects();
         if(!allProjects.isEmpty()) {

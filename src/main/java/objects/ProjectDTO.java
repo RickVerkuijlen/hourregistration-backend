@@ -13,24 +13,31 @@ import java.time.LocalDate;
 public class ProjectDTO extends ResourceSupport {
 
     @Id
-    @Column(name = "code")
+    @Column(name = "projectId")
     private String code;
-
-    @Column(name = "address")
-    private String address;
 
     @JsonIgnore
     @Column(name = "implementorId")
     private int implementorId;
 
-   // private Time startTime;
-
     @JsonIgnore
     @Column(name = "clientId")
     private int clientId;
 
+    @Column(name = "buildAddress")
+    private String buildAddress;
+
+    @Column(name = "buildCity")
+    private String buildCity;
+
+    @Column(name = "workedHours")
+    private float workedHours;
+
     @Column(name = "description")
     private String description;
+
+    @Column(name = "particularities")
+    private String particularities;
 
     @Column(name = "lastModified")
     private Date lastModified;
@@ -42,20 +49,44 @@ public class ProjectDTO extends ResourceSupport {
         this.code = "20RV1";
     }
 
+    public String getBuildAddress() {
+        return buildAddress;
+    }
+
+    public void setBuildAddress(String buildAddress) {
+        this.buildAddress = buildAddress;
+    }
+
+    public String getBuildCity() {
+        return buildCity;
+    }
+
+    public void setBuildCity(String buildCity) {
+        this.buildCity = buildCity;
+    }
+
+    public float getWorkedHours() {
+        return workedHours;
+    }
+
+    public void setWorkedHours(float workedHours) {
+        this.workedHours = workedHours;
+    }
+
+    public String getParticularities() {
+        return particularities;
+    }
+
+    public void setParticularities(String particularities) {
+        this.particularities = particularities;
+    }
+
     public String getCode() {
         return code;
     }
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public int getImplementorId() {
