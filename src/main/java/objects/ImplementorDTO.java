@@ -8,7 +8,7 @@ public class ImplementorDTO {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "id")
+    @Column(name = "implementorId")
     private int id;
 
     @Column(name = "name")

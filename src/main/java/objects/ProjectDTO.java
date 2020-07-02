@@ -16,11 +16,9 @@ public class ProjectDTO extends ResourceSupport {
     @Column(name = "projectId")
     private String code;
 
-    @JsonIgnore
     @Column(name = "implementorId")
     private int implementorId;
 
-    @JsonIgnore
     @Column(name = "clientId")
     private int clientId;
 
@@ -29,6 +27,9 @@ public class ProjectDTO extends ResourceSupport {
 
     @Column(name = "buildCity")
     private String buildCity;
+
+    @Column(name = "buildZipcode")
+    private String buildZipcode;
 
     @Column(name = "workedHours")
     private float workedHours;
@@ -47,6 +48,14 @@ public class ProjectDTO extends ResourceSupport {
     public ProjectDTO(int id) {
         this.implementorId = id;
         this.code = "20RV1";
+    }
+
+    public String getBuildZipcode() {
+        return buildZipcode;
+    }
+
+    public void setBuildZipcode(String buildZipcode) {
+        this.buildZipcode = buildZipcode;
     }
 
     public String getBuildAddress() {

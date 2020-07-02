@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import repositories.Interfaces.IImplementorRepository;
 
+import java.util.List;
+
 @Component
 public class ImplementorRepository implements IImplementorRepository {
 
@@ -14,6 +16,10 @@ public class ImplementorRepository implements IImplementorRepository {
     @Autowired
     public ImplementorRepository(IImplementorContext implementorContext) {
         this.implementorContext = implementorContext;
+    }
+
+    public List<ImplementorDTO> getAllImplementors() {
+        return implementorContext.getAllImplementors();
     }
     @Override
     public ImplementorDTO getById(int id) {
