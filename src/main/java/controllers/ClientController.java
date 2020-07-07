@@ -1,6 +1,7 @@
 package controllers;
 
 import objects.ClientDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import repositories.Interfaces.IClientRepository;
 @CrossOrigin(origins = "http://localhost:3000")
 public class ClientController {
 
+    @Autowired
     private IClientRepository clientRepository;
 
     public ClientController(IClientRepository clientRepository) {
