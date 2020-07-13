@@ -1,6 +1,9 @@
 package objects;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
@@ -13,6 +16,9 @@ public class HourDTO {
 
     @Column(name = "projectId")
     private String projectId;
+
+    @Column(name = "userId")
+    private int userId;
 
     @Column(name = "date")
     private Date date;
@@ -36,6 +42,14 @@ public class HourDTO {
 
     public void setProjectId(String projectId) {
         this.projectId = projectId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public Date getDate() {

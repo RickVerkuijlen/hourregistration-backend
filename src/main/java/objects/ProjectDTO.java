@@ -1,12 +1,12 @@
 package objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.hateoas.ResourceSupport;
 
-import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "project")
@@ -41,7 +41,7 @@ public class ProjectDTO extends ResourceSupport {
     private String particularities;
 
     @Column(name = "lastModified")
-    private Date lastModified;
+    private LocalDateTime lastModified;
 
     public ProjectDTO() {}
 
@@ -122,11 +122,11 @@ public class ProjectDTO extends ResourceSupport {
         this.description = description;
     }
 
-    public Date getLastModified() {
+    public LocalDateTime getLastModified() {
         return lastModified;
     }
 
-    public void setLastModified(Date lastModified) {
+    public void setLastModified(LocalDateTime lastModified) {
         this.lastModified = lastModified;
     }
 }
