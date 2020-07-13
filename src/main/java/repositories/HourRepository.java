@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Component
 public class HourRepository {
@@ -31,41 +32,32 @@ public class HourRepository {
 
         List<HourDTO> result = new ArrayList<>();
 
-        List<HourDTO> userHours = new ArrayList<>();
-
         hours.sort(Comparator.comparing(HourDTO::getProjectId));
 
-//        (float) userHours.stream().mapToDouble(x -> (double) x.getWorkedHours()).sum()
         users.forEach(user -> {
             String projectCode = "";
             float totalHoursOnProject = 0;
-            HourDTO dto = new HourDTO();
-            dto.setUserId(user.getId());
 
-            for (HourDTO hour : hours) {
-                dto.setId(hour.getId());
+            HourDTO dto = null;
+            List<HourDTO> userHours = hours.stream().filter(o -> o.getUserId() == user.getId()).collect(Collectors.toList());
+            for (HourDTO hour : userHours) {
+
                 if(!projectCode.equals(hour.getProjectId()) || projectCode.isEmpty()) {
                     projectCode = hour.getProjectId();
                     dto = new HourDTO();
                     dto.setUserId(user.getId());
+                    totalHoursOnProject = 0;
                 }
 
                 totalHoursOnProject += hour.getWorkedHours();
 
-                if(hour.getUserId() != user.getId()) {
-                    totalHoursOnProject = 0;
-                }
-
                 dto.setProjectId(projectCode);
+
                 dto.setWorkedHours(totalHoursOnProject);
-
-                if(!result.contains(dto)) {
-                    result.add(dto);
-                }
-
+                result.remove(dto);
+                result.add(dto);
             }
         });
-
 
         return result;
     }
