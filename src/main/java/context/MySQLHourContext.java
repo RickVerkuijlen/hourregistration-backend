@@ -39,11 +39,12 @@ public class MySQLHourContext implements IContext<HourDTO> {
             projectDTO.setWorkedHours(projectDTO.getWorkedHours() + entity.getWorkedHours());
 //            projectDTO.setLastModified(LocalDateTime.now());
 
+
             System.out.println(LocalDateTime.now());
 
             session.update(projectDTO);
 
-            session.save(entity);
+            session.saveOrUpdate(checkForHour(entity, session));
 
             transaction.commit();
 
@@ -56,6 +57,22 @@ public class MySQLHourContext implements IContext<HourDTO> {
         return false;
     }
 
+    private HourDTO checkForHour(HourDTO entity, Session session) {
+        HourDTO result;
+        Query<HourDTO> query = session.createQuery("from HourDTO h where h.projectId = :projectId and h.userId = :userId and h.date = :date", HourDTO.class);
+        query.setParameter("projectId", entity.getProjectId());
+        query.setParameter("userId", entity.getUserId());
+        query.setParameter("date", entity.getDate());
+        result = query.uniqueResult();
+
+        if(result != null) {
+            result.setWorkedHours(result.getWorkedHours() + entity.getWorkedHours());
+            return result;
+        } else {
+            return entity;
+        }
+    }
+
     public List<HourDTO> getAllFromMonth(int month, int year) {
         List<HourDTO> result = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -64,7 +81,18 @@ public class MySQLHourContext implements IContext<HourDTO> {
             query.setParameter("year", year);
             result = query.getResultList();
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e.toString());
+        }
+        return result;
+    }
+
+    public List<HourDTO> getAll() {
+        List<HourDTO> result = new ArrayList<>();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<HourDTO> query = session.createQuery("from HourDTO", HourDTO.class);
+            result = query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
         return result;
     }

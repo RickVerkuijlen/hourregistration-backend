@@ -14,6 +14,9 @@ public class ImplementorDTO {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "initial")
+    private String initial;
+
     public ImplementorDTO() {
 
     }
@@ -24,6 +27,14 @@ public class ImplementorDTO {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getInitial() {
+        return initial;
+    }
+
+    public void setInitial(String initial) {
+        this.initial = initial;
     }
 
     public String getName() {

@@ -23,7 +23,6 @@ public class HourController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     public @ResponseBody
     HttpEntity<Boolean> saveHour(@RequestBody HourDTO hourDTO) {
-        System.out.println("Worked hours: " + hourDTO.getWorkedHours());
         boolean hourSaveSuccess = hourRepository.saveHour(hourDTO);
 
         if(hourSaveSuccess) {
@@ -33,16 +32,28 @@ public class HourController {
         }
     }
 
-    @GetMapping(value = "/{month}/{year}")
+    @GetMapping(value = "/month/{month}/{year}")
     public @ResponseBody
     HttpEntity<List<HourDTO>> getMonthOverview(@PathVariable("month") String month,
                                                    @PathVariable("year") String year) {
         List<HourDTO> hourDTOS = hourRepository.getAllHoursFromMonth(month, year);
 
-        if(hourDTOS != null || !hourDTOS.isEmpty()) {
+        if(hourDTOS != null && !hourDTOS.isEmpty()) {
             return new ResponseEntity<>(hourDTOS, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping(value = "/week/{week}")
+    public @ResponseBody
+    HttpEntity<List<HourDTO>> getWeeklyOverview(@PathVariable("week") String week) {
+        List<HourDTO> hourDTOS = hourRepository.getAllHoursFromWeek(week);
+
+        if(hourDTOS != null && !hourDTOS.isEmpty()) {
+            return new ResponseEntity<>(hourDTOS, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }

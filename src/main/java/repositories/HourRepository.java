@@ -6,10 +6,13 @@ import objects.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Component
@@ -22,7 +25,36 @@ public class HourRepository {
     private UserRepository userRepository;
 
     public Boolean saveHour(HourDTO entity) {
+        float workedHour = entity.getWorkedHours();
+
+        entity.setWorkedHours(calculateHours(workedHour));
+
+        System.out.println("Worked hours: " + entity.getWorkedHours());
+
         return hourContext.create(entity);
+    }
+
+    private float calculateHours(float workedHour) {
+
+        System.out.println("WorkedHour: " + workedHour);
+        String floatAsString = String.valueOf(workedHour);
+
+        float totalHour = Float.parseFloat(floatAsString.substring(0, floatAsString.indexOf(".")));
+        float behindDecimalPoint = Float.parseFloat(floatAsString.substring(floatAsString.indexOf(".")));
+
+        if(behindDecimalPoint < 0.37f) {
+            totalHour += 0.25f;
+        } else if(behindDecimalPoint < 0.63f) {
+            totalHour += 0.5f;
+        } else if (behindDecimalPoint < 0.87f) {
+            totalHour += 0.75f;
+        } else {
+            totalHour += 1;
+        }
+
+        System.out.println(totalHour);
+
+        return totalHour;
     }
 
     public List<HourDTO> getAllHoursFromMonth(String month, String year) {
@@ -58,6 +90,28 @@ public class HourRepository {
                 result.add(dto);
             }
         });
+        
+        return result;
+    }
+
+    public List<HourDTO> getAllHoursFromWeek(String week) {
+        List<HourDTO> allHours = hourContext.getAll();
+
+        List<HourDTO> result = new ArrayList<>();
+
+        int weekNumber = Integer.parseInt(week);
+
+        Calendar calendar = Calendar.getInstance();
+
+        for (HourDTO hour : allHours) {
+            calendar.setTime(hour.getDate());
+            int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+            System.out.println(hour.getDate() + ": " + weekOfYear);
+
+            if(weekOfYear == weekNumber) {
+                result.add(hour);
+            }
+        }
 
         return result;
     }

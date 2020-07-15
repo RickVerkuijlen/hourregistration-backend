@@ -18,7 +18,7 @@ public class MySQLImplementorContext implements IImplementorContext {
     public List<ImplementorDTO> getAllImplementors() {
         List<ImplementorDTO> result = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            result = session.createQuery("from ImplementorDTO", ImplementorDTO.class).list();
+            result = session.createQuery("from ImplementorDTO ORDER BY name ASC", ImplementorDTO.class).list();
         }
         return result;
     }
