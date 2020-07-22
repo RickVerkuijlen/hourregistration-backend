@@ -52,4 +52,9 @@ public class ProjectRepository implements IProjectRepository {
     public Boolean createProject(ProjectDTO projectDTO) {
         return projectContext.create(projectDTO);
     }
+
+    @Override
+    public Boolean updateProject(ProjectDTO projectDTO) {
+        return projectContext.update(projectDTO);
+    }
 }

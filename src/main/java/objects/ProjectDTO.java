@@ -40,7 +40,8 @@ public class ProjectDTO extends ResourceSupport {
     @Column(name = "particularities")
     private String particularities;
 
-    @Column(name = "lastModified")
+    @Column(name = "lastModified",
+            updatable = false)
     private LocalDateTime lastModified;
 
     public ProjectDTO() {}

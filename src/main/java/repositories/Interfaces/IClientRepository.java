@@ -7,4 +7,5 @@ import java.util.List;
 public interface IClientRepository {
     ClientDTO getById(int id);
     List<ClientDTO> getAllClients();
+    Boolean updateClient(ClientDTO entity);
 }

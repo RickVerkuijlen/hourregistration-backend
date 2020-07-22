@@ -9,9 +9,6 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 import util.HibernateUtil;
 
-import java.sql.SQLOutput;
-import java.text.SimpleDateFormat;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,49 @@ public class MySQLHourContext implements IContext<HourDTO> {
 
     @Override
     public boolean update(HourDTO entity) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            entity.setId(getHourId(entity));
+
+            System.out.println(LocalDateTime.now());
+
+            session.saveOrUpdate(entity);
+
+            transaction.commit();
+
+            transaction = session.beginTransaction();
+
+            ProjectDTO projectDTO = session.get(ProjectDTO.class, entity.getProjectId());
+
+            projectDTO.setWorkedHours(calculateUpdateHours(projectDTO.getCode(), entity));
+
+            session.update(projectDTO);
+
+            transaction.commit();
+
+            return true;
+        } catch (Exception e ) {
+            if(transaction != null) {
+                transaction.rollback();
+            }
+        }
         return false;
+    }
+
+    private int getHourId(HourDTO entity) {
+        HourDTO result;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<HourDTO> query = session.createQuery("from HourDTO h where h.projectId = :projectId and h.userId = :userId and h.date = :date", HourDTO.class);
+            query.setParameter("projectId", entity.getProjectId());
+            query.setParameter("userId", entity.getUserId());
+            query.setParameter("date", entity.getDate());
+            result = query.uniqueResult();
+        }
+
+        return result != null ? result.getId() : 0;
+
     }
 
     @Override
@@ -37,8 +76,6 @@ public class MySQLHourContext implements IContext<HourDTO> {
 
             ProjectDTO projectDTO = session.get(ProjectDTO.class, entity.getProjectId());
             projectDTO.setWorkedHours(projectDTO.getWorkedHours() + entity.getWorkedHours());
-//            projectDTO.setLastModified(LocalDateTime.now());
-
 
             System.out.println(LocalDateTime.now());
 
@@ -55,6 +92,26 @@ public class MySQLHourContext implements IContext<HourDTO> {
             }
         }
         return false;
+    }
+
+    private float calculateUpdateHours(String projectId, HourDTO entity) {
+        float result = 0;
+        List<HourDTO> hours = new ArrayList<>();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<HourDTO> query = session.createQuery("from HourDTO h where h.projectId = :projectId", HourDTO.class);
+            query.setParameter("projectId", projectId);
+            hours = query.list();
+        }
+
+        if(hours != null || !hours.isEmpty()) {
+            for (HourDTO hour : hours) {
+                result += hour.getWorkedHours();
+            }
+        }
+
+
+
+        return result;
     }
 
     private HourDTO checkForHour(HourDTO entity, Session session) {

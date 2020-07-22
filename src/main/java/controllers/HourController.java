@@ -32,6 +32,18 @@ public class HourController {
         }
     }
 
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+    public @ResponseBody
+    HttpEntity<Boolean> updateHour(@RequestBody HourDTO hourDTO) {
+        boolean hourUpdateSuccess = hourRepository.updateHour(hourDTO);
+
+        if(hourUpdateSuccess) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
     @GetMapping(value = "/month/{month}/{year}")
     public @ResponseBody
     HttpEntity<List<HourDTO>> getMonthOverview(@PathVariable("month") String month,
@@ -45,10 +57,11 @@ public class HourController {
         }
     }
 
-    @GetMapping(value = "/week/{week}")
+    @GetMapping(value = "/week/{week}/{year}")
     public @ResponseBody
-    HttpEntity<List<HourDTO>> getWeeklyOverview(@PathVariable("week") String week) {
-        List<HourDTO> hourDTOS = hourRepository.getAllHoursFromWeek(week);
+    HttpEntity<List<HourDTO>> getWeeklyOverview(@PathVariable("week") String week,
+                                                @PathVariable("year") String year) {
+        List<HourDTO> hourDTOS = hourRepository.getAllHoursFromWeek(week, year);
 
         if(hourDTOS != null && !hourDTOS.isEmpty()) {
             return new ResponseEntity<>(hourDTOS, HttpStatus.OK);
@@ -56,4 +69,6 @@ public class HourController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
+
+
 }

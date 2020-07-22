@@ -8,4 +8,5 @@ public interface IProjectRepository {
     List<ProjectDTO> allProjects();
     ProjectDTO getProjectByCode(String code);
     Boolean createProject(ProjectDTO projectDTO);
+    Boolean updateProject(ProjectDTO projectDTO);
 }

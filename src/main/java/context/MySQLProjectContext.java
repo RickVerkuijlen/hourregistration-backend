@@ -21,6 +21,20 @@ public class MySQLProjectContext implements IProjectContext {
 
     @Override
     public boolean update(ProjectDTO entity) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            session.update(entity);
+
+            transaction.commit();
+
+            return true;
+        } catch (Exception e) {
+            if(transaction != null) {
+                transaction.rollback();
+            }
+        }
         return false;
     }
 

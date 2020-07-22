@@ -9,10 +9,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -32,6 +29,10 @@ public class HourRepository {
         System.out.println("Worked hours: " + entity.getWorkedHours());
 
         return hourContext.create(entity);
+    }
+
+    public Boolean updateHour(HourDTO entity) {
+        return hourContext.update(entity);
     }
 
     private float calculateHours(float workedHour) {
@@ -94,21 +95,23 @@ public class HourRepository {
         return result;
     }
 
-    public List<HourDTO> getAllHoursFromWeek(String week) {
+    public List<HourDTO> getAllHoursFromWeek(String week, String year) {
         List<HourDTO> allHours = hourContext.getAll();
 
         List<HourDTO> result = new ArrayList<>();
 
         int weekNumber = Integer.parseInt(week);
+        int yearNumber = Integer.parseInt(year);
 
         Calendar calendar = Calendar.getInstance();
 
         for (HourDTO hour : allHours) {
             calendar.setTime(hour.getDate());
             int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+            int hourYear = calendar.get(Calendar.YEAR);
             System.out.println(hour.getDate() + ": " + weekOfYear);
 
-            if(weekOfYear == weekNumber) {
+            if(weekOfYear == weekNumber && hourYear == yearNumber) {
                 result.add(hour);
             }
         }
