@@ -14,5 +14,6 @@
         <mapping class="objects.ImplementorDTO" />
         <mapping class="objects.HourDTO" />
         <mapping class="objects.UserDTO" />
+        <mapping class="objects.FolderDTO" />
     </session-factory>
 </hibernate-configuration>
