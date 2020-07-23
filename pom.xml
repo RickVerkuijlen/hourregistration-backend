@@ -114,6 +114,7 @@
             </plugin>
 
         </plugins>
+        <finalName>hourregistration-verkuylen</finalName>
     </build>
 
 </project>
