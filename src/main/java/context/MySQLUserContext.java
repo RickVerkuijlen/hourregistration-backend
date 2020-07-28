@@ -3,6 +3,7 @@ package context;
 import context.Interfaces.IContext;
 import objects.UserDTO;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 import util.HibernateUtil;
@@ -25,8 +26,22 @@ public class MySQLUserContext implements IContext<UserDTO> {
     }
 
     @Override
-    public boolean create(UserDTO entity) {
-        return false;
+    public int create(UserDTO entity) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            session.save(entity);
+
+            transaction.commit();
+
+            return entity.getId();
+        } catch (Exception e ) {
+            if(transaction != null) {
+                transaction.rollback();
+            }
+        }
+        return 0;
     }
 
     public List<UserDTO> getAllUsers() {

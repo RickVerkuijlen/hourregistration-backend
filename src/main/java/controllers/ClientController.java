@@ -36,8 +36,20 @@ public class ClientController {
     HttpEntity<Boolean> updateClient(@RequestBody ClientDTO clientDTO) {
         Boolean clientUpdateSuccess = clientRepository.updateClient(clientDTO);
 
-        if(clientUpdateSuccess) {
+        if (clientUpdateSuccess) {
             return new ResponseEntity<>(true, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public @ResponseBody
+    HttpEntity<Integer> createClient(@RequestBody ClientDTO clientDTO) {
+        int clientUpdateSuccess = clientRepository.createClient(clientDTO);
+
+        if (clientUpdateSuccess != 0) {
+            return new ResponseEntity<>(clientUpdateSuccess, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }

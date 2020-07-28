@@ -32,4 +32,9 @@ public class ClientRepository implements IClientRepository {
     public Boolean updateClient(ClientDTO clientDTO) {
         return clientContext.update(clientDTO);
     }
+
+    @Override
+    public int createClient(ClientDTO entity) {
+        return clientContext.create(entity);
+    }
 }

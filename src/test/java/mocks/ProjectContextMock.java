@@ -28,7 +28,7 @@ public class ProjectContextMock implements IProjectContext {
     }
 
     @Override
-    public boolean create(ProjectDTO entity) {
-        return false;
+    public int create(ProjectDTO entity) {
+        return 0;
     }
 }

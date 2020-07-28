@@ -21,8 +21,8 @@ public interface IContext<T> {
     /**
      * Creates a new entity in the database of type T
      * @param entity The object of type T that needs to be put in the database
-     * @return if query was successful or not
+     * @return the created id
      */
-    boolean create(T entity);
+    int create(T entity);
 
 }

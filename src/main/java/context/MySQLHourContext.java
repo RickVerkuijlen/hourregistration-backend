@@ -69,7 +69,7 @@ public class MySQLHourContext implements IContext<HourDTO> {
     }
 
     @Override
-    public boolean create(HourDTO entity) {
+    public int create(HourDTO entity) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -85,13 +85,13 @@ public class MySQLHourContext implements IContext<HourDTO> {
 
             transaction.commit();
 
-            return true;
+            return entity.getId();
         } catch (Exception e ) {
             if(transaction != null) {
                 transaction.rollback();
             }
         }
-        return false;
+        return 0;
     }
 
     private float calculateUpdateHours(String projectId, HourDTO entity) {

@@ -50,7 +50,7 @@ public class ProjectRepository implements IProjectRepository {
 
     @Override
     public Boolean createProject(ProjectDTO projectDTO) {
-        return projectContext.create(projectDTO);
+        return projectContext.create(projectDTO) == 1;
     }
 
     @Override

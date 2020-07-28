@@ -34,7 +34,7 @@ public class MySQLClientContext implements IClientContext {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            session.update(entity);
+            session.saveOrUpdate(entity);
 
             transaction.commit();
 
@@ -48,7 +48,21 @@ public class MySQLClientContext implements IClientContext {
     }
 
     @Override
-    public boolean create(ClientDTO entity) {
-        return false;
+    public int create(ClientDTO entity) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+
+            session.save(entity);
+
+            transaction.commit();
+
+            return entity.getId();
+        } catch (Exception e ) {
+            if(transaction != null) {
+                transaction.rollback();
+            }
+        }
+        return 0;
     }
 }

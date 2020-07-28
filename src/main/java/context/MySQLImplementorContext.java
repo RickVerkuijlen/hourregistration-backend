@@ -45,7 +45,7 @@ public class MySQLImplementorContext implements IImplementorContext {
     }
 
     @Override
-    public boolean create(ImplementorDTO entity) {
-        return false;
+    public int create(ImplementorDTO entity) {
+        return 0;
     }
 }

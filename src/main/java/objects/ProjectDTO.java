@@ -41,7 +41,7 @@ public class ProjectDTO extends ResourceSupport {
     private String particularities;
 
     @Column(name = "lastModified",
-            updatable = false)
+            updatable = false, insertable = false)
     private LocalDateTime lastModified;
 
     public ProjectDTO() {}

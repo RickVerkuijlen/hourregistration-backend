@@ -28,7 +28,7 @@ public class HourRepository {
 
         System.out.println("Worked hours: " + entity.getWorkedHours());
 
-        return hourContext.create(entity);
+        return hourContext.create(entity) == 1;
     }
 
     public Boolean updateHour(HourDTO entity) {
