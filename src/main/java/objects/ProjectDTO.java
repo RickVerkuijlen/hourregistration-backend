@@ -40,6 +40,12 @@ public class ProjectDTO extends ResourceSupport {
     @Column(name = "particularities")
     private String particularities;
 
+    @Column(name = "finances")
+    private String finances;
+
+    @Column(name = "finances_extra")
+    private String finances_extra;
+
     @Column(name = "lastModified",
             updatable = false, insertable = false)
     private LocalDateTime lastModified;
@@ -53,6 +59,22 @@ public class ProjectDTO extends ResourceSupport {
 
     public String getBuildZipcode() {
         return buildZipcode;
+    }
+
+    public String getFinances() {
+        return finances;
+    }
+
+    public void setFinances(String finances) {
+        this.finances = finances;
+    }
+
+    public String getFinances_extra() {
+        return finances_extra;
+    }
+
+    public void setFinances_extra(String finances_extra) {
+        this.finances_extra = finances_extra;
     }
 
     public void setBuildZipcode(String buildZipcode) {
