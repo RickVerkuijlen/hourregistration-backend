@@ -8,6 +8,8 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 import util.HibernateUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -19,6 +21,15 @@ public class MySQLClientContext implements IClientContext {
             Query query = session.createQuery("from ClientDTO c where c.id = :client_id", ClientDTO.class);
             query.setParameter("client_id", id);
             result = (ClientDTO)query.uniqueResult();
+        }
+        return result;
+    }
+
+    @Override
+    public List<ClientDTO> getAll() {
+        List<ClientDTO> result = new ArrayList<>();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            result = session.createQuery("from ClientDTO", ClientDTO.class).list();
         }
         return result;
     }

@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import repositories.Interfaces.IClientRepository;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/clients")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -18,6 +20,17 @@ public class ClientController {
 
     public ClientController(IClientRepository clientRepository) {
         this.clientRepository = clientRepository;
+    }
+
+    @GetMapping("")
+    public @ResponseBody HttpEntity<List<ClientDTO>> getAllClients() {
+        List<ClientDTO> clientDTOS = clientRepository.getAllClients();
+
+        if(!clientDTOS.isEmpty()) {
+            return new ResponseEntity<>(clientDTOS, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/{id}")

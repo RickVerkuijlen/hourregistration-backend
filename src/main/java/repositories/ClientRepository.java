@@ -25,7 +25,7 @@ public class ClientRepository implements IClientRepository {
 
     @Override
     public List<ClientDTO> getAllClients() {
-        return null;
+        return clientContext.getAll();
     }
 
     @Override
