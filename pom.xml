@@ -89,6 +89,15 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*Controller.java</exclude>
+                        <exclude>**/*Context.java</exclude>
+                        <exclude>**/*DTO.java</exclude>
+                        <exclude>**/*Repository.java</exclude>
+                        <exclude>**/*Util.java</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
