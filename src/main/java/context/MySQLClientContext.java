@@ -45,7 +45,7 @@ public class MySQLClientContext implements IClientContext {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            session.saveOrUpdate(entity);
+            session.update(entity);
 
             transaction.commit();
 
