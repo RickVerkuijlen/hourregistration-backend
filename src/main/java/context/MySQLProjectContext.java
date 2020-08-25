@@ -25,7 +25,7 @@ public class MySQLProjectContext implements IProjectContext {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            session.saveOrUpdate(entity);
+            session.update(entity);
 
             transaction.commit();
 
