@@ -19,10 +19,21 @@ public class UserDTO {
     @Column(name = "isAdmin")
     private boolean isAdmin;
 
+    @Column(name = "salutation")
+    private String salutation;
+
     @Column(name = "password")
     private String password;
 
     public UserDTO() {
+    }
+
+    public String getSalutation() {
+        return salutation;
+    }
+
+    public void setSalutation(String salutation) {
+        this.salutation = salutation;
     }
 
     public String getPassword() {
