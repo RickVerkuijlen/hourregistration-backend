@@ -1,10 +1,10 @@
 package context.Interfaces;
 
-import objects.ClientDTO;
+import objects.Client;
 
 import java.util.List;
 
-public interface IClientContext extends IContext<ClientDTO> {
-    ClientDTO getById(int id);
-    List<ClientDTO> getAll();
+public interface IClientContext extends IContext<Client> {
+    Client getById(int id);
+    List<Client> getAll();
 }

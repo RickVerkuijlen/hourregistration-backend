@@ -1,7 +1,7 @@
 package context;
 
 import context.Interfaces.IProjectContext;
-import objects.ProjectDTO;
+import objects.Project;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ public class MySQLProjectContext implements IProjectContext {
     }
 
     @Override
-    public boolean update(ProjectDTO entity) {
+    public boolean update(Project entity) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -39,7 +39,7 @@ public class MySQLProjectContext implements IProjectContext {
     }
 
     @Override
-    public int create(ProjectDTO entity) {
+    public int create(Project entity) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -58,10 +58,10 @@ public class MySQLProjectContext implements IProjectContext {
     }
 
     @Override
-    public List<ProjectDTO> getAllProjects() {
-        List<ProjectDTO> result = new ArrayList<>();
+    public List<Project> getAllProjects() {
+        List<Project> result = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            result = session.createQuery("from ProjectDTO", ProjectDTO.class).list();
+            result = session.createQuery("from Project", Project.class).list();
         }
         return result;
     }

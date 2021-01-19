@@ -1,7 +1,7 @@
 package repositories;
 
 import context.MySQLUserContext;
-import objects.UserDTO;
+import objects.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +13,11 @@ public class UserRepository {
     @Autowired
     private MySQLUserContext userContext;
 
-    public List<UserDTO> allUsers() {
+    public List<User> allUsers() {
         return userContext.getAllUsers();
     }
 
-    public UserDTO getById(int id) {
+    public User getById(int id) {
         return userContext.getById(id);
     }
 }

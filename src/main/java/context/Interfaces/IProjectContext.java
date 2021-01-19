@@ -1,9 +1,9 @@
 package context.Interfaces;
 
-import objects.ProjectDTO;
+import objects.Project;
 
 import java.util.List;
 
-public interface IProjectContext extends IContext<ProjectDTO> {
-    List<ProjectDTO> getAllProjects();
+public interface IProjectContext extends IContext<Project> {
+    List<Project> getAllProjects();
 }

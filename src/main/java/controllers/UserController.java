@@ -1,6 +1,6 @@
 package controllers;
 
-import objects.UserDTO;
+import objects.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,8 @@ public class UserController {
 
     @GetMapping("")
     public @ResponseBody
-    HttpEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> allUsers = userRepository.allUsers();
+    HttpEntity<List<User>> getAllUsers() {
+        List<User> allUsers = userRepository.allUsers();
         if(!allUsers.isEmpty()) {
             return new ResponseEntity<>(allUsers, HttpStatus.OK);
         } else {
@@ -30,8 +30,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody HttpEntity<UserDTO> getById(@PathVariable String id) {
-        UserDTO userDTO = userRepository.getById(Integer.parseInt(id));
-        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    public @ResponseBody HttpEntity<User> getById(@PathVariable String id) {
+        User user = userRepository.getById(Integer.parseInt(id));
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

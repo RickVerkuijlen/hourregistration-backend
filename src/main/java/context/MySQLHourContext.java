@@ -1,28 +1,29 @@
 package context;
 
 import context.Interfaces.IContext;
-import objects.HourDTO;
-import objects.ProjectDTO;
+import objects.Hour;
+import objects.Project;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 import util.HibernateUtil;
 
+import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Component
-public class MySQLHourContext implements IContext<HourDTO> {
+public class MySQLHourContext implements IContext<Hour> {
     @Override
     public boolean delete(UUID entity) {
         return false;
     }
 
     @Override
-    public boolean update(HourDTO entity) {
+    public boolean update(Hour entity) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -37,11 +38,11 @@ public class MySQLHourContext implements IContext<HourDTO> {
 
             transaction = session.beginTransaction();
 
-            ProjectDTO projectDTO = session.get(ProjectDTO.class, entity.getProjectId());
+            Project project = session.get(Project.class, entity.getProjectId());
 
-            projectDTO.setWorkedHours(calculateUpdateHours(projectDTO.getCode(), entity));
+            project.setWorkedHours(calculateUpdateHours(project.getCode(), entity));
 
-            session.update(projectDTO);
+            session.update(project);
 
             transaction.commit();
 
@@ -54,10 +55,10 @@ public class MySQLHourContext implements IContext<HourDTO> {
         return false;
     }
 
-    private int getHourId(HourDTO entity) {
-        HourDTO result;
+    private int getHourId(Hour entity) {
+        Hour result;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<HourDTO> query = session.createQuery("from HourDTO h where h.projectId = :projectId and h.userId = :userId and h.date = :date", HourDTO.class);
+            Query<Hour> query = session.createQuery("from Hour h where h.projectId = :projectId and h.userId = :userId and h.date = :date", Hour.class);
             query.setParameter("projectId", entity.getProjectId());
             query.setParameter("userId", entity.getUserId());
             query.setParameter("date", entity.getDate());
@@ -69,17 +70,17 @@ public class MySQLHourContext implements IContext<HourDTO> {
     }
 
     @Override
-    public int create(HourDTO entity) {
+    public int create(Hour entity) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
 
-            ProjectDTO projectDTO = session.get(ProjectDTO.class, entity.getProjectId());
-            projectDTO.setWorkedHours(projectDTO.getWorkedHours() + entity.getWorkedHours());
+            Project project = session.get(Project.class, entity.getProjectId());
+            project.setWorkedHours(project.getWorkedHours() + entity.getWorkedHours());
 
             System.out.println(LocalDateTime.now());
 
-            session.update(projectDTO);
+            session.update(project);
 
             session.saveOrUpdate(checkForHour(entity, session));
 
@@ -94,17 +95,17 @@ public class MySQLHourContext implements IContext<HourDTO> {
         return 0;
     }
 
-    private float calculateUpdateHours(String projectId, HourDTO entity) {
+    private float calculateUpdateHours(String projectId, Hour entity) {
         float result = 0;
-        List<HourDTO> hours = new ArrayList<>();
+        List<Hour> hours = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<HourDTO> query = session.createQuery("from HourDTO h where h.projectId = :projectId", HourDTO.class);
+            Query<Hour> query = session.createQuery("from Hour h where h.projectId = :projectId", Hour.class);
             query.setParameter("projectId", projectId);
             hours = query.list();
         }
 
         if(hours != null || !hours.isEmpty()) {
-            for (HourDTO hour : hours) {
+            for (Hour hour : hours) {
                 result += hour.getWorkedHours();
             }
         }
@@ -114,9 +115,9 @@ public class MySQLHourContext implements IContext<HourDTO> {
         return result;
     }
 
-    private HourDTO checkForHour(HourDTO entity, Session session) {
-        HourDTO result;
-        Query<HourDTO> query = session.createQuery("from HourDTO h where h.projectId = :projectId and h.userId = :userId and h.date = :date", HourDTO.class);
+    private Hour checkForHour(Hour entity, Session session) {
+        Hour result;
+        Query<Hour> query = session.createQuery("from Hour h where h.projectId = :projectId and h.userId = :userId and h.date = :date", Hour.class);
         query.setParameter("projectId", entity.getProjectId());
         query.setParameter("userId", entity.getUserId());
         query.setParameter("date", entity.getDate());
@@ -130,10 +131,10 @@ public class MySQLHourContext implements IContext<HourDTO> {
         }
     }
 
-    public List<HourDTO> getAllFromMonth(int month, int year) {
-        List<HourDTO> result = new ArrayList<>();
+    public List<Hour> getAllFromMonth(int month, int year) {
+        List<Hour> result = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<HourDTO> query = session.createQuery("from HourDTO h where MONTH(h.date) = :month and YEAR(h.date) = :year", HourDTO.class);
+            Query<Hour> query = session.createQuery("from Hour h where MONTH(h.date) = :month and YEAR(h.date) = :year", Hour.class);
             query.setParameter("month", month);
             query.setParameter("year", year);
             result = query.getResultList();
@@ -143,10 +144,23 @@ public class MySQLHourContext implements IContext<HourDTO> {
         return result;
     }
 
-    public List<HourDTO> getAll() {
-        List<HourDTO> result = new ArrayList<>();
+    public List<Hour> getAllFromWeek(Date start, Date end) {
+        List<Hour> result = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<HourDTO> query = session.createQuery("from HourDTO", HourDTO.class);
+            Query query = session.createQuery("FROM Hour WHERE date >= date(:startDate) AND date <= date(:endDate)");
+            query.setParameter("startDate", start);
+            query.setParameter("endDate", end);
+            result = query.getResultList();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return result;
+    }
+
+    public List<Hour> getAll() {
+        List<Hour> result = new ArrayList<>();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Hour> query = session.createQuery("from Hour", Hour.class);
             result = query.getResultList();
         } catch (Exception e) {
             System.out.println(e.toString());

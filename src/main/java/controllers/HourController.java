@@ -1,6 +1,6 @@
 package controllers;
 
-import objects.HourDTO;
+import objects.Hour;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -22,8 +22,8 @@ public class HourController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     public @ResponseBody
-    HttpEntity<Boolean> saveHour(@RequestBody HourDTO hourDTO) {
-        boolean hourSaveSuccess = hourRepository.saveHour(hourDTO);
+    HttpEntity<Boolean> saveHour(@RequestBody Hour hour) {
+        boolean hourSaveSuccess = hourRepository.saveHour(hour);
 
         if(hourSaveSuccess) {
             return new ResponseEntity<>(true, HttpStatus.CREATED);
@@ -34,8 +34,8 @@ public class HourController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     public @ResponseBody
-    HttpEntity<Boolean> updateHour(@RequestBody HourDTO hourDTO) {
-        boolean hourUpdateSuccess = hourRepository.updateHour(hourDTO);
+    HttpEntity<Boolean> updateHour(@RequestBody Hour hour) {
+        boolean hourUpdateSuccess = hourRepository.updateHour(hour);
 
         if(hourUpdateSuccess) {
             return new ResponseEntity<>(true, HttpStatus.OK);
@@ -46,12 +46,12 @@ public class HourController {
 
     @GetMapping(value = "/month/{month}/{year}")
     public @ResponseBody
-    HttpEntity<List<HourDTO>> getMonthOverview(@PathVariable("month") String month,
-                                                   @PathVariable("year") String year) {
-        List<HourDTO> hourDTOS = hourRepository.getAllHoursFromMonth(month, year);
+    HttpEntity<List<Hour>> getMonthOverview(@PathVariable("month") String month,
+                                            @PathVariable("year") String year) {
+        List<Hour> hours = hourRepository.getAllHoursFromMonth(month, year);
 
-        if(hourDTOS != null && !hourDTOS.isEmpty()) {
-            return new ResponseEntity<>(hourDTOS, HttpStatus.OK);
+        if(hours != null && !hours.isEmpty()) {
+            return new ResponseEntity<>(hours, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
@@ -59,12 +59,12 @@ public class HourController {
 
     @GetMapping(value = "/week/{week}/{year}")
     public @ResponseBody
-    HttpEntity<List<HourDTO>> getWeeklyOverview(@PathVariable("week") String week,
-                                                @PathVariable("year") String year) {
-        List<HourDTO> hourDTOS = hourRepository.getAllHoursFromWeek(week, year);
+    HttpEntity<List<Hour>> getWeeklyOverview(@PathVariable("week") String week,
+                                             @PathVariable("year") String year) {
+        List<Hour> hours = hourRepository.getAllHoursFromWeek(week, year);
 
-        if(hourDTOS != null && !hourDTOS.isEmpty()) {
-            return new ResponseEntity<>(hourDTOS, HttpStatus.OK);
+        if(hours != null && !hours.isEmpty()) {
+            return new ResponseEntity<>(hours, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

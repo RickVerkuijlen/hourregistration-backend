@@ -1,6 +1,6 @@
 package controllers;
 
-import objects.FolderDTO;
+import objects.Folder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,8 @@ public class FolderController {
 
     @GetMapping()
     public @ResponseBody
-    HttpEntity<List<FolderDTO>> getAllFolders() {
-        List<FolderDTO> folderList = folderRepository.getAllFolders();
+    HttpEntity<List<Folder>> getAllFolders() {
+        List<Folder> folderList = folderRepository.getAllFolders();
 
         if(!folderList.isEmpty()) {
             return new ResponseEntity<>(folderList, HttpStatus.OK);

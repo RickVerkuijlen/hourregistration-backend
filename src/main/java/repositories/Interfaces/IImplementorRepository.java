@@ -1,11 +1,11 @@
 package repositories.Interfaces;
 
-import objects.ImplementorDTO;
+import objects.Implementor;
 
 import java.util.List;
 
 public interface IImplementorRepository {
-    ImplementorDTO getById(int id);
+    Implementor getById(int id);
 
-    List<ImplementorDTO> getAllImplementors();
+    List<Implementor> getAllImplementors();
 }

@@ -1,6 +1,6 @@
 package controllers;
 
-import objects.ClientDTO;
+import objects.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -23,22 +23,22 @@ public class ClientController {
     }
 
     @GetMapping("")
-    public @ResponseBody HttpEntity<List<ClientDTO>> getAllClients() {
-        List<ClientDTO> clientDTOS = clientRepository.getAllClients();
+    public @ResponseBody HttpEntity<List<Client>> getAllClients() {
+        List<Client> clients = clientRepository.getAllClients();
 
-        if(!clientDTOS.isEmpty()) {
-            return new ResponseEntity<>(clientDTOS, HttpStatus.OK);
+        if(!clients.isEmpty()) {
+            return new ResponseEntity<>(clients, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody HttpEntity<ClientDTO> getClientById(@PathVariable String id) {
-        ClientDTO clientDTO = clientRepository.getById(Integer.parseInt(id));
+    public @ResponseBody HttpEntity<Client> getClientById(@PathVariable String id) {
+        Client client = clientRepository.getById(Integer.parseInt(id));
 
-        if(clientDTO != null) {
-            return new ResponseEntity<>(clientDTO, HttpStatus.OK);
+        if(client != null) {
+            return new ResponseEntity<>(client, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -46,8 +46,8 @@ public class ClientController {
 
     @PutMapping(consumes = "application/json", produces = "application/json")
     public @ResponseBody
-    HttpEntity<Boolean> updateClient(@RequestBody ClientDTO clientDTO) {
-        Boolean clientUpdateSuccess = clientRepository.updateClient(clientDTO);
+    HttpEntity<Boolean> updateClient(@RequestBody Client client) {
+        Boolean clientUpdateSuccess = clientRepository.updateClient(client);
 
         if (clientUpdateSuccess) {
             return new ResponseEntity<>(true, HttpStatus.OK);
@@ -58,8 +58,8 @@ public class ClientController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public @ResponseBody
-    HttpEntity<Integer> createClient(@RequestBody ClientDTO clientDTO) {
-        int clientUpdateSuccess = clientRepository.createClient(clientDTO);
+    HttpEntity<Integer> createClient(@RequestBody Client client) {
+        int clientUpdateSuccess = clientRepository.createClient(client);
 
         if (clientUpdateSuccess != 0) {
             return new ResponseEntity<>(clientUpdateSuccess, HttpStatus.OK);

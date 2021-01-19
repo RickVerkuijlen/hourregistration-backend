@@ -1,14 +1,11 @@
 package repositories;
 
 import context.MySQLHourContext;
-import objects.HourDTO;
-import objects.UserDTO;
+import objects.Hour;
+import objects.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
-import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,7 +18,7 @@ public class HourRepository {
     @Autowired
     private UserRepository userRepository;
 
-    public Boolean saveHour(HourDTO entity) {
+    public Boolean saveHour(Hour entity) {
         float workedHour = entity.getWorkedHours();
 
         entity.setWorkedHours(calculateHours(workedHour));
@@ -31,7 +28,7 @@ public class HourRepository {
         return hourContext.create(entity) == 1;
     }
 
-    public Boolean updateHour(HourDTO entity) {
+    public Boolean updateHour(Hour entity) {
         return hourContext.update(entity);
     }
 
@@ -58,26 +55,26 @@ public class HourRepository {
         return totalHour;
     }
 
-    public List<HourDTO> getAllHoursFromMonth(String month, String year) {
-        List<HourDTO> hours = hourContext.getAllFromMonth(Integer.parseInt(month), Integer.parseInt(year));
+    public List<Hour> getAllHoursFromMonth(String month, String year) {
+        List<Hour> hours = hourContext.getAllFromMonth(Integer.parseInt(month), Integer.parseInt(year));
 
-        List<UserDTO> users = userRepository.allUsers();
+        List<User> users = userRepository.allUsers();
 
-        List<HourDTO> result = new ArrayList<>();
+        List<Hour> result = new ArrayList<>();
 
-        hours.sort(Comparator.comparing(HourDTO::getProjectId));
+        hours.sort(Comparator.comparing(Hour::getProjectId));
 
         users.forEach(user -> {
             String projectCode = "";
             float totalHoursOnProject = 0;
 
-            HourDTO dto = null;
-            List<HourDTO> userHours = hours.stream().filter(o -> o.getUserId() == user.getId()).collect(Collectors.toList());
-            for (HourDTO hour : userHours) {
+            Hour dto = null;
+            List<Hour> userHours = hours.stream().filter(o -> o.getUserId() == user.getId()).collect(Collectors.toList());
+            for (Hour hour : userHours) {
 
                 if(!projectCode.equals(hour.getProjectId()) || projectCode.isEmpty()) {
                     projectCode = hour.getProjectId();
-                    dto = new HourDTO();
+                    dto = new Hour();
                     dto.setUserId(user.getId());
                     totalHoursOnProject = 0;
                 }
@@ -95,27 +92,40 @@ public class HourRepository {
         return result;
     }
 
-    public List<HourDTO> getAllHoursFromWeek(String week, String year) {
-        List<HourDTO> allHours = hourContext.getAll();
+    public List<Hour> getAllHoursFromWeek(String week, String year) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.WEEK_OF_YEAR, Integer.parseInt(week));
+        cal.set(Calendar.DAY_OF_WEEK, 2);
+        cal.set(Calendar.YEAR, Integer.parseInt(year));
 
-        List<HourDTO> result = new ArrayList<>();
+        System.out.println(cal.getTime());
+        Date startDate = cal.getTime();
+        cal.add(Calendar.DAY_OF_WEEK, 6);
+        System.out.println(cal.getTime());
+        Date endDate = cal.getTime();
 
-        int weekNumber = Integer.parseInt(week);
-        int yearNumber = Integer.parseInt(year);
+        List<Hour> allHours = hourContext.getAllFromWeek(startDate, endDate);
 
-        Calendar calendar = Calendar.getInstance();
+        System.out.println(allHours);
 
-        for (HourDTO hour : allHours) {
-            calendar.setTime(hour.getDate());
-            int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
-            int hourYear = calendar.get(Calendar.YEAR);
-            System.out.println(hour.getDate() + ": " + weekOfYear);
+//        List<Hour> result = new ArrayList<>();
+//
+//        int weekNumber = Integer.parseInt(week);
+//        int yearNumber = Integer.parseInt(year);
+//
+//        Calendar calendar = Calendar.getInstance();
+//
+//        for (Hour hour : allHours) {
+//            calendar.setTime(hour.getDate());
+//            int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+//            int hourYear = calendar.get(Calendar.YEAR);
+//            System.out.println(hour.getDate() + ": " + weekOfYear);
+//
+//            if(weekOfYear == weekNumber && hourYear == yearNumber) {
+//                result.add(hour);
+//            }
+//        }
 
-            if(weekOfYear == weekNumber && hourYear == yearNumber) {
-                result.add(hour);
-            }
-        }
-
-        return result;
+        return allHours;
     }
 }

@@ -1,10 +1,10 @@
 package context.Interfaces;
 
-import objects.ImplementorDTO;
+import objects.Implementor;
 
 import java.util.List;
 
-public interface IImplementorContext extends IContext<ImplementorDTO> {
-    List<ImplementorDTO> getAllImplementors();
-    ImplementorDTO getById(int id);
+public interface IImplementorContext extends IContext<Implementor> {
+    List<Implementor> getAllImplementors();
+    Implementor getById(int id);
 }

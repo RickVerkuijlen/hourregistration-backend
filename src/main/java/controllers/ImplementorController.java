@@ -1,6 +1,6 @@
 package controllers;
 
-import objects.ImplementorDTO;
+import objects.Implementor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -24,19 +24,19 @@ public class ImplementorController {
     }
 
     @GetMapping("")
-    public @ResponseBody HttpEntity<List<ImplementorDTO>> getAll() {
-        List<ImplementorDTO> implementorDTOS = implementorRepository.getAllImplementors();
-        if(!implementorDTOS.isEmpty() ) {
-            return new ResponseEntity<>(implementorDTOS, HttpStatus.OK);
+    public @ResponseBody HttpEntity<List<Implementor>> getAll() {
+        List<Implementor> implementors = implementorRepository.getAllImplementors();
+        if(!implementors.isEmpty() ) {
+            return new ResponseEntity<>(implementors, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody HttpEntity<ImplementorDTO> getById(@PathVariable String id) {
-        ImplementorDTO implementorDTO = implementorRepository.getById(Integer.parseInt(id));
-        return new ResponseEntity<>(implementorDTO, HttpStatus.OK);
+    public @ResponseBody HttpEntity<Implementor> getById(@PathVariable String id) {
+        Implementor implementor = implementorRepository.getById(Integer.parseInt(id));
+        return new ResponseEntity<>(implementor, HttpStatus.OK);
     }
 
 }

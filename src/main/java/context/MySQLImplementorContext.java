@@ -1,7 +1,7 @@
 package context;
 
 import context.Interfaces.IImplementorContext;
-import objects.ImplementorDTO;
+import objects.Implementor;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
@@ -15,21 +15,21 @@ import java.util.UUID;
 public class MySQLImplementorContext implements IImplementorContext {
 
     @Override
-    public List<ImplementorDTO> getAllImplementors() {
-        List<ImplementorDTO> result = new ArrayList<>();
+    public List<Implementor> getAllImplementors() {
+        List<Implementor> result = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            result = session.createQuery("from ImplementorDTO ORDER BY name ASC", ImplementorDTO.class).list();
+            result = session.createQuery("from Implementor ORDER BY name ASC", Implementor.class).list();
         }
         return result;
     }
 
     @Override
-    public ImplementorDTO getById(int id) {
-        ImplementorDTO result = null;
+    public Implementor getById(int id) {
+        Implementor result = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query query = session.createQuery("from ImplementorDTO i where i.id = :implementor_id", ImplementorDTO.class);
+            Query query = session.createQuery("from Implementor i where i.id = :implementor_id", Implementor.class);
             query.setParameter("implementor_id", id);
-            result = (ImplementorDTO)query.uniqueResult();
+            result = (Implementor)query.uniqueResult();
         }
         return result;
     }
@@ -40,12 +40,12 @@ public class MySQLImplementorContext implements IImplementorContext {
     }
 
     @Override
-    public boolean update(ImplementorDTO entity) {
+    public boolean update(Implementor entity) {
         return false;
     }
 
     @Override
-    public int create(ImplementorDTO entity) {
+    public int create(Implementor entity) {
         return 0;
     }
 }

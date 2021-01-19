@@ -1,7 +1,7 @@
 package context;
 
 import context.Interfaces.IClientContext;
-import objects.ClientDTO;
+import objects.Client;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -15,21 +15,21 @@ import java.util.UUID;
 @Component
 public class MySQLClientContext implements IClientContext {
     @Override
-    public ClientDTO getById(int id) {
-        ClientDTO result = null;
+    public Client getById(int id) {
+        Client result = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query query = session.createQuery("from ClientDTO c where c.id = :client_id", ClientDTO.class);
+            Query query = session.createQuery("from Client c where c.id = :client_id", Client.class);
             query.setParameter("client_id", id);
-            result = (ClientDTO)query.uniqueResult();
+            result = (Client)query.uniqueResult();
         }
         return result;
     }
 
     @Override
-    public List<ClientDTO> getAll() {
-        List<ClientDTO> result = new ArrayList<>();
+    public List<Client> getAll() {
+        List<Client> result = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            result = session.createQuery("from ClientDTO", ClientDTO.class).list();
+            result = session.createQuery("from Client", Client.class).list();
         }
         return result;
     }
@@ -40,7 +40,7 @@ public class MySQLClientContext implements IClientContext {
     }
 
     @Override
-    public boolean update(ClientDTO entity) {
+    public boolean update(Client entity) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -59,7 +59,7 @@ public class MySQLClientContext implements IClientContext {
     }
 
     @Override
-    public int create(ClientDTO entity) {
+    public int create(Client entity) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();

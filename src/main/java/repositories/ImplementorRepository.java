@@ -1,7 +1,7 @@
 package repositories;
 
 import context.Interfaces.IImplementorContext;
-import objects.ImplementorDTO;
+import objects.Implementor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import repositories.Interfaces.IImplementorRepository;
@@ -18,11 +18,11 @@ public class ImplementorRepository implements IImplementorRepository {
         this.implementorContext = implementorContext;
     }
 
-    public List<ImplementorDTO> getAllImplementors() {
+    public List<Implementor> getAllImplementors() {
         return implementorContext.getAllImplementors();
     }
     @Override
-    public ImplementorDTO getById(int id) {
+    public Implementor getById(int id) {
         return implementorContext.getById(id);
     }
 }

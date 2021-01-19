@@ -1,6 +1,6 @@
 package controllers;
 
-import objects.ProjectDTO;
+import objects.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -26,8 +26,8 @@ public class ProjectController {
 
     @GetMapping("")
     public @ResponseBody
-    HttpEntity<List<ProjectDTO>> getAllProjects() {
-        List<ProjectDTO> allProjects = projectRepository.allProjects();
+    HttpEntity<List<Project>> getAllProjects() {
+        List<Project> allProjects = projectRepository.allProjects();
         if(!allProjects.isEmpty()) {
             return new ResponseEntity<>(allProjects, HttpStatus.OK);
         } else {
@@ -37,11 +37,11 @@ public class ProjectController {
 
     @GetMapping("/{code}")
     public @ResponseBody
-    HttpEntity<ProjectDTO> getProjectById(@PathVariable String code) {
-        ProjectDTO projectDTO = projectRepository.getProjectByCode(code);
+    HttpEntity<Project> getProjectById(@PathVariable String code) {
+        Project project = projectRepository.getProjectByCode(code);
 
-        if(projectDTO != null) {
-            return new ResponseEntity<>(projectDTO, HttpStatus.OK);
+        if(project != null) {
+            return new ResponseEntity<>(project, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -49,7 +49,7 @@ public class ProjectController {
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public @ResponseBody
-    HttpEntity<Boolean> createProject(@RequestBody ProjectDTO newProject) {
+    HttpEntity<Boolean> createProject(@RequestBody Project newProject) {
         Boolean projectCreationSuccess = projectRepository.createProject(newProject);
 
         if(projectCreationSuccess) {
@@ -61,7 +61,7 @@ public class ProjectController {
 
     @PutMapping(consumes = "application/json", produces = "application/json")
     public @ResponseBody
-    HttpEntity<Boolean> updateProject(@RequestBody ProjectDTO entity) {
+    HttpEntity<Boolean> updateProject(@RequestBody Project entity) {
         Boolean projectUpdateSuccess = projectRepository.updateProject(entity);
 
         if(projectUpdateSuccess) {

@@ -1,12 +1,12 @@
 package repositories.Interfaces;
 
-import objects.ClientDTO;
+import objects.Client;
 
 import java.util.List;
 
 public interface IClientRepository {
-    ClientDTO getById(int id);
-    List<ClientDTO> getAllClients();
-    Boolean updateClient(ClientDTO entity);
-    int createClient(ClientDTO entity);
+    Client getById(int id);
+    List<Client> getAllClients();
+    Boolean updateClient(Client entity);
+    int createClient(Client entity);
 }

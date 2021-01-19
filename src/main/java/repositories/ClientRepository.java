@@ -1,7 +1,7 @@
 package repositories;
 
 import context.Interfaces.IClientContext;
-import objects.ClientDTO;
+import objects.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import repositories.Interfaces.IClientRepository;
@@ -19,22 +19,22 @@ public class ClientRepository implements IClientRepository {
     }
 
     @Override
-    public ClientDTO getById(int id) {
+    public Client getById(int id) {
         return clientContext.getById(id);
     }
 
     @Override
-    public List<ClientDTO> getAllClients() {
+    public List<Client> getAllClients() {
         return clientContext.getAll();
     }
 
     @Override
-    public Boolean updateClient(ClientDTO clientDTO) {
-        return clientContext.update(clientDTO);
+    public Boolean updateClient(Client client) {
+        return clientContext.update(client);
     }
 
     @Override
-    public int createClient(ClientDTO entity) {
+    public int createClient(Client entity) {
         return clientContext.create(entity);
     }
 }

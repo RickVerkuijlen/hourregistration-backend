@@ -1,7 +1,7 @@
 package context;
 
 import context.Interfaces.IContext;
-import objects.UserDTO;
+import objects.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class MySQLUserContext implements IContext<UserDTO> {
+public class MySQLUserContext implements IContext<User> {
 
     @Override
     public boolean delete(UUID entity) {
@@ -21,12 +21,12 @@ public class MySQLUserContext implements IContext<UserDTO> {
     }
 
     @Override
-    public boolean update(UserDTO entity) {
+    public boolean update(User entity) {
         return false;
     }
 
     @Override
-    public int create(UserDTO entity) {
+    public int create(User entity) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
@@ -44,20 +44,20 @@ public class MySQLUserContext implements IContext<UserDTO> {
         return 0;
     }
 
-    public List<UserDTO> getAllUsers() {
-        List<UserDTO> result = new ArrayList<>();
+    public List<User> getAllUsers() {
+        List<User> result = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            result = session.createQuery("from UserDTO", UserDTO.class).list();
+            result = session.createQuery("from UserDTO", User.class).list();
         }
         return result;
     }
 
-    public UserDTO getById(int id) {
-        UserDTO result = null;
+    public User getById(int id) {
+        User result = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query query = session.createQuery("from UserDTO i where i.id = :user_id", UserDTO.class);
+            Query query = session.createQuery("from UserDTO i where i.id = :user_id", User.class);
             query.setParameter("user_id", id);
-            result = (UserDTO)query.uniqueResult();
+            result = (User)query.uniqueResult();
         }
         return result;
     }

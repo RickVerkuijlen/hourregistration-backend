@@ -1,7 +1,7 @@
 package repositories;
 
 import context.MySQLFolderContext;
-import objects.FolderDTO;
+import objects.Folder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ public class FolderRepository {
     @Autowired
     private MySQLFolderContext folderContext;
 
-    public List<FolderDTO> getAllFolders() {
+    public List<Folder> getAllFolders() {
         return folderContext.getAllFolders();
     }
 }
