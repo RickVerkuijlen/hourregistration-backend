@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class MySQLFolderContext {
+public class MySQLFolderContext extends CRUD<Folder> {
 
     public List<Folder> getAllFolders() {
         List<Folder> result = new ArrayList<>();

@@ -1,7 +1,5 @@
 package context.Interfaces;
 
-import java.util.UUID;
-
 public interface IContext<T> {
 
     /**
@@ -9,7 +7,7 @@ public interface IContext<T> {
      * @param entity The object of type T that needs to be deleted
      * @return if query was successful or not
      */
-    boolean delete(UUID entity);
+    boolean delete(T entity);
 
     /**
      * Updates the existing entity in the database of type T

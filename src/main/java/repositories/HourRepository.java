@@ -74,8 +74,7 @@ public class HourRepository {
 
                 if(!projectCode.equals(hour.getProjectId()) || projectCode.isEmpty()) {
                     projectCode = hour.getProjectId();
-                    dto = new Hour();
-                    dto.setUserId(user.getId());
+                    dto = Hour.builder().userId(user.getId()).build();
                     totalHoursOnProject = 0;
                 }
 
@@ -98,33 +97,11 @@ public class HourRepository {
         cal.set(Calendar.DAY_OF_WEEK, 2);
         cal.set(Calendar.YEAR, Integer.parseInt(year));
 
-        System.out.println(cal.getTime());
         Date startDate = cal.getTime();
         cal.add(Calendar.DAY_OF_WEEK, 6);
-        System.out.println(cal.getTime());
         Date endDate = cal.getTime();
 
         List<Hour> allHours = hourContext.getAllFromWeek(startDate, endDate);
-
-        System.out.println(allHours);
-
-//        List<Hour> result = new ArrayList<>();
-//
-//        int weekNumber = Integer.parseInt(week);
-//        int yearNumber = Integer.parseInt(year);
-//
-//        Calendar calendar = Calendar.getInstance();
-//
-//        for (Hour hour : allHours) {
-//            calendar.setTime(hour.getDate());
-//            int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
-//            int hourYear = calendar.get(Calendar.YEAR);
-//            System.out.println(hour.getDate() + ": " + weekOfYear);
-//
-//            if(weekOfYear == weekNumber && hourYear == yearNumber) {
-//                result.add(hour);
-//            }
-//        }
 
         return allHours;
     }

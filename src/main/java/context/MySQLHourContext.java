@@ -8,17 +8,18 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Component;
 import util.HibernateUtil;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Component
+@Slf4j
 public class MySQLHourContext implements IContext<Hour> {
     @Override
-    public boolean delete(UUID entity) {
+    public boolean delete(Hour entity) {
         return false;
     }
 
@@ -40,7 +41,7 @@ public class MySQLHourContext implements IContext<Hour> {
 
             Project project = session.get(Project.class, entity.getProjectId());
 
-            project.setWorkedHours(calculateUpdateHours(project.getCode(), entity));
+            project.setWorkedHours(calculateUpdateHours(project.getCode()));
 
             session.update(project);
 
@@ -95,7 +96,7 @@ public class MySQLHourContext implements IContext<Hour> {
         return 0;
     }
 
-    private float calculateUpdateHours(String projectId, Hour entity) {
+    private float calculateUpdateHours(String projectId) {
         float result = 0;
         List<Hour> hours = new ArrayList<>();
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -109,8 +110,6 @@ public class MySQLHourContext implements IContext<Hour> {
                 result += hour.getWorkedHours();
             }
         }
-
-
 
         return result;
     }
@@ -139,7 +138,7 @@ public class MySQLHourContext implements IContext<Hour> {
             query.setParameter("year", year);
             result = query.getResultList();
         } catch (Exception e) {
-            System.out.println(e.toString());
+            log.error(e.toString());
         }
         return result;
     }
@@ -152,18 +151,7 @@ public class MySQLHourContext implements IContext<Hour> {
             query.setParameter("endDate", end);
             result = query.getResultList();
         } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-        return result;
-    }
-
-    public List<Hour> getAll() {
-        List<Hour> result = new ArrayList<>();
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<Hour> query = session.createQuery("from Hour", Hour.class);
-            result = query.getResultList();
-        } catch (Exception e) {
-            System.out.println(e.toString());
+            log.error(e.toString());
         }
         return result;
     }

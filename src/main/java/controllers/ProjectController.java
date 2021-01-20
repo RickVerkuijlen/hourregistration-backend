@@ -71,4 +71,17 @@ public class ProjectController {
         }
     }
 
+    @DeleteMapping(consumes = "application/json")
+    public @ResponseBody
+    HttpEntity<Boolean> deleteProject(@RequestBody Project entity) {
+        Boolean projectDeleteSuccess = projectRepository.deleteProject(entity);
+
+        System.out.println("Deleted!!!");
+
+        if(projectDeleteSuccess) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

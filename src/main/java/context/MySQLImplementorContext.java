@@ -9,10 +9,9 @@ import util.HibernateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Component
-public class MySQLImplementorContext implements IImplementorContext {
+public class MySQLImplementorContext extends CRUD<Implementor> implements IImplementorContext {
 
     @Override
     public List<Implementor> getAllImplementors() {
@@ -32,20 +31,5 @@ public class MySQLImplementorContext implements IImplementorContext {
             result = (Implementor)query.uniqueResult();
         }
         return result;
-    }
-
-    @Override
-    public boolean delete(UUID entity) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Implementor entity) {
-        return false;
-    }
-
-    @Override
-    public int create(Implementor entity) {
-        return 0;
     }
 }

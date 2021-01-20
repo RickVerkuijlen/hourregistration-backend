@@ -1,9 +1,11 @@
 package repositories;
 
+import context.Interfaces.IClientContext;
 import context.Interfaces.IProjectContext;
 import controllers.ClientController;
 import controllers.ImplementorController;
 import controllers.ProjectController;
+import objects.Client;
 import objects.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
@@ -18,12 +20,11 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @Component
 public class ProjectRepository implements IProjectRepository {
 
+    @Autowired
     private IProjectContext projectContext;
 
     @Autowired
-    public ProjectRepository(IProjectContext projectContext) {
-        this.projectContext = projectContext;
-    }
+    private IClientContext clientContext;
 
     @Override
     public List<Project> allProjects() {
@@ -56,5 +57,12 @@ public class ProjectRepository implements IProjectRepository {
     @Override
     public Boolean updateProject(Project project) {
         return projectContext.update(project);
+    }
+
+    @Override
+    public Boolean deleteProject(Project project) {
+        Client client = clientContext.getById(project.getClientId());
+        projectContext.delete(project);
+        return clientContext.delete(client);
     }
 }

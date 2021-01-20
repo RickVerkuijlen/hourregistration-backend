@@ -1,6 +1,9 @@
 package objects;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.hateoas.ResourceSupport;
 
 import javax.persistence.Column;
@@ -12,6 +15,9 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "project")
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Project extends ResourceSupport {
 
     @Id

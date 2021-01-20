@@ -9,4 +9,5 @@ public interface IProjectRepository {
     Project getProjectByCode(String code);
     Boolean createProject(Project project);
     Boolean updateProject(Project project);
+    Boolean deleteProject(Project project);
 }

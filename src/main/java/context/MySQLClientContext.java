@@ -1,6 +1,7 @@
 package context;
 
 import context.Interfaces.IClientContext;
+import lombok.extern.slf4j.Slf4j;
 import objects.Client;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -13,7 +14,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
-public class MySQLClientContext implements IClientContext {
+@Slf4j
+public class MySQLClientContext extends CRUD<Client> implements IClientContext {
     @Override
     public Client getById(int id) {
         Client result = null;
@@ -35,30 +37,6 @@ public class MySQLClientContext implements IClientContext {
     }
 
     @Override
-    public boolean delete(UUID entity) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Client entity) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-
-            session.update(entity);
-
-            transaction.commit();
-
-            return true;
-        } catch (Exception e) {
-            if(transaction != null) {
-                transaction.rollback();
-            }
-        }
-        return false;
-    }
-
-    @Override
     public int create(Client entity) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -70,6 +48,7 @@ public class MySQLClientContext implements IClientContext {
 
             return entity.getId();
         } catch (Exception e ) {
+            log.error(e.toString());
             if(transaction != null) {
                 transaction.rollback();
             }
