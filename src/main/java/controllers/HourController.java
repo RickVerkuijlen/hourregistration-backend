@@ -70,5 +70,17 @@ public class HourController {
         }
     }
 
+    @GetMapping(value="/{projectId}")
+    public @ResponseBody
+    HttpEntity<List<Hour>> getHourOverviewById(@PathVariable("projectId") String projectId) {
+        List<Hour> hours = hourRepository.getAllHoursFromProject(projectId);
+
+        if(hours != null && !hours.isEmpty()) {
+            return new ResponseEntity<>(hours, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
 
 }

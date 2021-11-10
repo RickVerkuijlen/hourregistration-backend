@@ -155,4 +155,16 @@ public class MySQLHourContext implements IContext<Hour> {
         }
         return result;
     }
+
+    public List<Hour> getAllFromProject(String projectId) {
+        List<Hour> result = new ArrayList<>();
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query query = session.createQuery("FROM Hour WHERE projectId = :projectId");
+            query.setParameter("projectId", projectId);
+            result = query.getResultList();
+        } catch (Exception e) {
+            log.error(e.toString());
+        }
+        return result;
+    }
 }

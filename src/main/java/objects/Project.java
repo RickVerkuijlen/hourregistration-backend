@@ -57,4 +57,5 @@ public class Project extends ResourceSupport {
     @Column(name = "lastModified",
             updatable = false, insertable = false)
     private LocalDateTime lastModified;
+
 }

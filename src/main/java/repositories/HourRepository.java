@@ -105,4 +105,8 @@ public class HourRepository {
 
         return allHours;
     }
+
+    public List<Hour> getAllHoursFromProject(String projectId) {
+        return hourContext.getAllFromProject(projectId);
+    }
 }
