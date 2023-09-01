@@ -5,7 +5,7 @@
     <session-factory>
         <!-- JDBC Database connection settings -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://192.168.10.10:3306/hourregistration_prod</property>
+        <property name="hibernate.connection.url">jdbc:mysql://192.168.178.145:3306/hourregistration_prod</property>
         <property name="hibernate.connection.username">hourregistration</property>
         <property name="hibernate.connection.password">jts3zWi5pC9HnNj</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
